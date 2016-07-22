@@ -5,7 +5,7 @@ All other files just sample drafts.
 
 As of my IDE I'm using **Visual Studio Code** with build task.
 
-###Prerqurements
+###...before compile you might need to do
 ```
 npm install -g typescript
 ```
