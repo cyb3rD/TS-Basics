@@ -1,8 +1,19 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * Classes
+ */
 var Engine = (function () {
     function Engine(horsePower, engineType) {
         this.horsePower = horsePower;
         this.engineType = engineType;
     }
+    /**
+     * Implenetation of the interface
+     */
     Engine.prototype.start = function (callback) {
         var _this = this;
         setTimeout(function () {
@@ -24,12 +35,17 @@ var Accessory = (function () {
     }
     return Accessory;
 }());
+/**
+ * Base auto class
+ */
 var Auto = (function () {
-    function Auto(basePrice, engine, make, model) {
-        this.engine = engine;
-        this.basePrice = basePrice;
-        this.make = make;
-        this.model = model;
+    // options: IAutoOptions;
+    function Auto(options) {
+        // this.options = options; // As variant
+        this.engine = options.engine;
+        this.basePrice = options.basePrice;
+        this.make = options.make;
+        this.model = options.model;
     }
     Auto.prototype.calculateTotal = function () {
         var taxRate = .08;
@@ -50,6 +66,9 @@ var Auto = (function () {
         return this.accessoryList;
     };
     Object.defineProperty(Auto.prototype, "basePrice", {
+        /**
+         * Getters & Setters
+         */
         get: function () {
             return this._basePrice;
         },
@@ -75,7 +94,42 @@ var Auto = (function () {
     });
     return Auto;
 }());
+var Truck = (function (_super) {
+    __extends(Truck, _super);
+    function Truck(options) {
+        // MUST DO: Pass parameters to the Base Class constrcutor
+        _super.call(this, options);
+        this.bedLength = options.bedLength;
+        this.fourByfour = options.fourByfour;
+    }
+    return Truck;
+}(Auto));
+/**
+ * Samples
+ */
 var myLaFerrariEngine = new Engine(789, "Tipo F140");
-var myCar = new Auto(94000000, myLaFerrariEngine, "Ferrari", "LaFerrari");
-console.log("Total price for my car: " + myCar.calculateTotal());
+;
+var myCarOptions = {
+    basePrice: 94000000,
+    engine: myLaFerrariEngine,
+    make: "Ferrari",
+    model: "LaFerrari"
+};
+var myNewCar = new Auto(myCarOptions);
+var myTruckEngine = new Engine(225, "Diesel");
+;
+var myTruckOptions = {
+    basePrice: 3500000,
+    engine: myTruckEngine,
+    make: "Volvo",
+    model: "D5 AT 5S Momentum",
+    bedLength: 4950,
+    fourByfour: true
+};
+var myNewTruck = new Truck(myTruckOptions);
+console.log("Total price for my new car: " + myNewCar.calculateTotal());
+// Logout our truck object
+console.log("My truck:");
+for (var prop in myNewTruck)
+    console.log(prop + ": " + typeof prop + " value: " + myNewTruck[prop]);
 //# sourceMappingURL=classes.js.map
